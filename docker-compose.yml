@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+
+ roomapp:
+  build:
+   context: .
+   dockerfile: Dockerfile
+  image: room_php
+  container_name: roomapp
+  restart: unless-stopped
+  tty: true
+  working_dir: /var/www
+  volumes:
+   - ./:/var/www
+  networks:
+   - room-net
+
+ roomweb:
+  image: nginx
+  container_name: roomweb
+  restart: unless-stopped
+  tty: true
+  ports:
+   - "88:80"
+   - "445:443"
+  volumes:
+   - ./:/var/www
+   - ./nginx/conf.d:/etc/nginx/conf.d
+  networks:
+   - room-net
+
+ roomdb:
+  image: mysql:8
+  container_name: roomdb
+  restart: unless-stopped
+  tty: true
+  ports:
+   - "3307:3306"
+  environment:
+   #follow docker compose file match with .env then get sensitive value
+   MYSQL_DATABASE: ${DB_DATABASE}
+   MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+  volumes:
+   - ./storage/mysql:/var/lib/mysql
+  networks:
+   - room-net
+  
+ roomredis:
+  image: redis:7.2-rc3-alpine3.18
+  container_name: roomredis
+  restart: unless-stopped
+  tty: true
+  ports:
+   - "6380:6379"
+  networks:
+   - room-net
+
+networks:
+ room-net:
+  driver: bridge
