@@ -5,23 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Room extends Model
+class RoomUser extends Model
 {
     use HasFactory;
 
     public $timestamps = false;
 
     protected $fillable = [
-        'name',
-        'key',
-        'owner',
+        'room_id',
+        'user_id',
     ];
 
     protected $hidden = [
 
     ];
-
-    // protected $casts = [
-    //     'password' => 'hashed',
-    // ];
 }

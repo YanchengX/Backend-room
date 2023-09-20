@@ -20,7 +20,6 @@ class RoomFactory extends Factory
             'name' => fake()->realText(25, 2),
             'key' => Str::random(10),
             'owner' => random_int(1,30),
-            'member' => random_int(1,30),
         ];
     }
 }

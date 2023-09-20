@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Message>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class MessageFactory extends Factory
+class RoomUserFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,8 +19,6 @@ class MessageFactory extends Factory
         return [
             'room_id' => random_int(1,30),
             'user_id' => random_int(1,30),
-            'content' => fake()->text(44),
-            'sent_time' => fake()->time(now()),
         ];
     }
 }

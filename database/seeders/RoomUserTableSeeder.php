@@ -2,20 +2,19 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\RoomUser;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class UserTableSeeder extends Seeder
+class RoomUserTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        DB::table('users')->truncate();
-        User::factory(30)->create();
+        DB::table('room_users')->truncate(); //table('msg','room'
+        RoomUser::factory(30)->create();
     }
 }

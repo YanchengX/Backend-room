@@ -12,14 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('rooms', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('room_id');
             $table->string('name')->max(20);
             $table->string('key');
             $table->unsignedInteger('owner');
-            $table->unsignedInteger('member');
-
-            $table->foreign('owner')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('member')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

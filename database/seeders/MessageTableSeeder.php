@@ -16,6 +16,6 @@ class MessageTableSeeder extends Seeder
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         DB::table('messages')->truncate();
-        Message::factory(10)->create();
+        Message::factory(30)->create();
     }
 }

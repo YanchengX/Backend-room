@@ -12,7 +12,10 @@ class Message extends Model
     public $timestamps = false;
     
     protected $fillable = [
+        'room_id',
+        'user_id',
         'content',
+        'sent_time',
     ];
 
     protected $hidden = [
