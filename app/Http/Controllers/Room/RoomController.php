@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Room;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Room\RoomCreateRequest;
+use App\Http\Requests\Room\RoomUpdateRequest;
 use App\Models\Room;
 use Illuminate\Http\Request;
 
@@ -29,7 +31,7 @@ class RoomController extends Controller
         ]);
     }
 
-    public function create(Request $request){
+    public function create(RoomCreateRequest $request){
         $data = $request->all();
         
         return response()->json([
@@ -37,7 +39,7 @@ class RoomController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id){
+    public function update(RoomUpdateRequest $request, $id){
         
     }
 

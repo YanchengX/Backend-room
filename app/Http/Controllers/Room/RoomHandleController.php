@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Room;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Room\UserJoinRequest;
+use App\Http\Requests\Room\UserLeftRequest;
 use App\Models\Room;
 use App\Models\RoomUser;
 use Illuminate\Http\Request;
@@ -27,11 +29,19 @@ class RoomHandleController extends Controller
         ]);
     }
 
-    public function userJoin(Request $request, $id)
+    public function userJoin(UserJoinRequest $request)
     {
-        $room_id = $id;
+        $room_id = $request->get('room_id');
         $user_id = $request->get('user_id');
-        
+        $key = $request->get('key');
+
+        $locate = $this->room->find($room_id);   
+        if($key != $locate['key']){
+            return response()->json([
+                'key mismatch'
+            ]);
+        }
+
         $model = $this->room_user->create(['room_id' => $room_id, 'user_id' => $user_id]);
 
         return response()->json([
@@ -39,9 +49,8 @@ class RoomHandleController extends Controller
         ]);
     }
     
-    public function userLeft(Request $request, $id)
+    public function userLeft(UserLeftRequest $request, $room_id)
     {
-        $room_id = $id;
         $user_id = $request->get('user_id');
         $model = $this->room_user->where(['room_id'=>$room_id, 'user_id'=>$user_id])->delete();
 
