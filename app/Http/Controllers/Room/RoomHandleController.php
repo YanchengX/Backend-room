@@ -59,7 +59,7 @@ class RoomHandleController extends Controller
         ]);
     }
     
-    public function userkick()
+    public function userKick()
     {
 
     }
