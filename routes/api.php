@@ -40,9 +40,9 @@ Route::group(['middleware'=> ['auth:api']],function($router){
     Route::delete('/room/{id}', [RoomController::class, 'destroy']);
 
     //room handle
-    Route::post('/room/{id}', [RoomHandleController::class, 'getKey']);
-    Route::post('/room/{id}/join', [RoomHandleController::class, 'userJoin']);
-    Route::post('/room/{id}/left', [RoomHandleController::class, 'userLeft']);
+    Route::post('/room/key/{id}', [RoomHandleController::class, 'getKey']);
+    Route::post('/room/join', [RoomHandleController::class, 'userJoin']);
+    Route::post('/room/left/{id}', [RoomHandleController::class, 'userLeft']);
 
     //msg handle
     Route::get('/message/{room_id}',[MessageHandleController::class, 'getText']);

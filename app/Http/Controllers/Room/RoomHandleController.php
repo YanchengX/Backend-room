@@ -34,7 +34,6 @@ class RoomHandleController extends Controller
         $room_id = $request->get('room_id');
         $user_id = $request->get('user_id');
         $key = $request->get('key');
-
         $locate = $this->room->find($room_id);   
         if($key != $locate['key']){
             return response()->json([

@@ -36,7 +36,7 @@ class Usercontroller extends Controller
         $this->user->create([
             'name' => $data['name'],
             'password' => $data['password'],
-            // 'logged_ip' => $request->ip(),
+            'logged_ip' => ''
         ]);
         
         return response()->json([
