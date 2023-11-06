@@ -56,6 +56,35 @@ services:
   networks:
    - room-net
 
+ drone-server:
+  image: drone/drone:2
+  ports:
+   - 87:80
+   - 449:443
+  restart: always
+  volumes:
+   - ./storage/app/public:/var/lib/drone
+  environment:
+   DRONE_GITHUB_CLIENT_ID: 3e1de5bd6cc15edab073
+   DRONE_GITHUB_CLIENT_SECRET: 6d513c46c76018f4cdd260ee647d64f68c02a05c
+   DRONE_RPC_SECRET: 6d513c46c76018f4cdd260ee647d64f68c02a05c
+   DRONE_SERVER_HOST: e692-18-140-181-114.ngrok-free.app
+   DRONE_SERVER_PROTO: https
+
+ drone-runner:
+  image: drone/drone-runner-docker:1
+  container_name: drone-runner
+  restart: always
+  depends_on:
+    - drone-server
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  environment:
+   DRONE_RPC_HOST: drone-server
+   DRONE_RPC_PROTO: http
+   DRONE_RPC_SECRET: 6d513c46c76018f4cdd260ee647d64f68c02a05c
+   DRONE_RUNNER_CAPACITY: 2
+
 networks:
  room-net:
   driver: bridge
