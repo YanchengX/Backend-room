@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Auth\UserLoginRequest;
 use Illuminate\Support\Facades\Auth;
 
 class UserAuthController extends Controller
 {
-    
-    public function login(Request $request)
+    public function login(UserLoginRequest $request)
     {
         $credentials = $request->all();
         if(! $token = Auth::attempt($credentials)){
@@ -24,7 +23,7 @@ class UserAuthController extends Controller
         ],200);
     }
     
-    public function logout(Request $request)
+    public function logout()
     {
         Auth::logout();
         return response()->json([
@@ -36,4 +35,6 @@ class UserAuthController extends Controller
     {
         return $this->respondWithToken(Auth::refresh());
     }
+
+    
 }

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Message;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Message\PostTextRequest;
 use App\Models\Message;
-use Illuminate\Http\Request;
 
 class MessageHandleController extends Controller
 {
@@ -23,7 +23,7 @@ class MessageHandleController extends Controller
         ]);
     }
 
-    public function postText(Request $request, $room_id)
+    public function postText(PostTextRequest $request, $room_id)
     {   
         $data = ["room_id" => $room_id];
         $data += $request->all();

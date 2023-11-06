@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\UserCreateRequest;
+use App\Http\Requests\User\UserUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -28,13 +30,13 @@ class Usercontroller extends Controller
         ]);
     }
 
-    public function create(Request $request)
+    public function create(UserCreateRequest $request)
     {
         $data = $request->all();
         $this->user->create([
             'name' => $data['name'],
             'password' => $data['password'],
-            'logged_ip' => $request->ip(),
+            'logged_ip' => ''
         ]);
         
         return response()->json([
@@ -42,13 +44,12 @@ class Usercontroller extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(UserUpdateRequest $request, $id)
     {
         $user = $this->user->find($id);
         $data = $request->all();
         $user['name'] = $data['name'];
         $user['password'] = $data['password'];
-        
         $user->save();
         
         return response()->json([
