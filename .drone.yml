@@ -7,6 +7,5 @@ steps:
    image: room_php
    pull: never
    commands:
-    - composer i
     - composer update
     - php artisan test
