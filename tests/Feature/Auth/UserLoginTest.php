@@ -2,18 +2,22 @@
 
 namespace Tests\Feature\Auth;
 
+use Database\Seeders\UserTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class UserLoginTest extends TestCase
 {
+    use RefreshDatabase;
+
     private $url = 'api/user/login';
     protected function setUp(): void
     {
         parent::setUp();
+        $this->seed(UserTableSeeder::class);
     }
-    
+
     public function testloginPass()
     {
         $user = [

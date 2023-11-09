@@ -14,7 +14,6 @@ class RoomTableSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         DB::table('rooms')->truncate();
         Room::factory(30)->create();
     }

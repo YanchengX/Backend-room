@@ -2,21 +2,22 @@
 
 namespace Tests\Feature\Auth;
 
+use Database\Seeders\UserTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class UserLogoutTest extends TestCase
 {
+    use RefreshDatabase;
+
     private $url = 'api/user/logout';
-    private $user;
+
     protected function setUp(): void
     {
         parent::setUp();
-        $this->user = [
-            'name' => 'abc',
-            'password' => 'fuck'
-        ];
+        $this->seed(UserTableSeeder::class);
+        
         $this->withHeaders([
             'Authorization' => $this->generateToken()
         ]);

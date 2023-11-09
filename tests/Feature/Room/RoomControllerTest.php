@@ -3,19 +3,34 @@
 namespace Tests\Feature\Room;
 
 use App\Models\Room;
+use Database\Seeders\RoomTableSeeder;
+use Database\Seeders\UserTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class RoomControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     private $url = 'api/room';
+    private $room;
+
     protected function setUp(): void
     {
         parent::setUp();
+        $this->seed(UserTableSeeder::class);
+        $this->seed(RoomTableSeeder::class);
+
         $this->withHeaders([
             'Authorization' => $this->generateToken()
         ]);
+
+        $this->room = [
+            'name' => 'ajgjef',
+            'key' => 'asdfasdf',
+            'owner' => "1",
+        ];
     }
 
     public function testIndexPass()
@@ -33,15 +48,10 @@ class RoomControllerTest extends TestCase
     }
 
     public function testCreatePass()
-    {   
-        $room = [
-            'name' => 'ajgjef',
-            'key' => 'asdfasdf',
-            'owner' => "1",
-        ];
+    {
 
-        $response = $this->post($this->url, $room);
-        
+        $response = $this->post($this->url, $this->room);
+
         $response->assertOk();
     }
 
@@ -58,9 +68,11 @@ class RoomControllerTest extends TestCase
     // }
 
     public function testDestroyPass()
-    {
-        $room = Room::where('name', '=', 'ajgjef')->first();
+    {   
 
+        $this->post($this->url, $this->room);
+        
+        $room = Room::where('name', '=', 'ajgjef')->first();
         $response = $this->delete($this->url.'/'.$room['id']);
         
         $response->assertOk();
