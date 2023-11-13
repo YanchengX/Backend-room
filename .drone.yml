@@ -8,5 +8,6 @@ steps:
    pull: never
    commands:
     - composer update
+    - cp .env.example .env
     - php artisan jwt:secret
     - php artisan test
