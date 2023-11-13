@@ -13,7 +13,7 @@ services:
    DRONE_GITHUB_CLIENT_ID: 0bcd44dc5f53c2b8e295
    DRONE_GITHUB_CLIENT_SECRET: 33c0c53e858181cc653d8aec22e5d3daa682c2f6
    DRONE_RPC_SECRET: a72e5b4e35f612dfd9bb6b0508f00cef
-   DRONE_SERVER_HOST: dd46-2001-b011-8010-1311-8ebc-dd82-318d-632e.ngrok-free.app
+   DRONE_SERVER_HOST: 70cb-2001-b011-8010-1311-8ebc-dd82-318d-632e.ngrok-free.app
    DRONE_SERVER_PROTO: https
    DRONE_LOGS_DEBUG: 'true'
    DRONE_LOGS_TRACE: 'true'
@@ -29,7 +29,7 @@ services:
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   environment:
-   DRONE_RPC_HOST: dd46-2001-b011-8010-1311-8ebc-dd82-318d-632e.ngrok-free.app
+   DRONE_RPC_HOST: 70cb-2001-b011-8010-1311-8ebc-dd82-318d-632e.ngrok-free.app
    DRONE_RPC_PROTO: https
    DRONE_RPC_SECRET: a72e5b4e35f612dfd9bb6b0508f00cef
    DRONE_RUNNER_CAPACITY: 2

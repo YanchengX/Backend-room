@@ -17,5 +17,7 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+#basement
 ngrok.log
 /drone
