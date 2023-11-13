@@ -8,4 +8,5 @@ steps:
    pull: never
    commands:
     - composer update
+    - php artisan jwt:secret
     - php artisan test
