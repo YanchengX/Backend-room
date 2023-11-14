@@ -9,5 +9,5 @@ steps:
    commands:
     - composer update
     - cp .env.example .env
-    - php artisan jwt:secret
+    - php artisan jwt:secret -f
     - php artisan test
