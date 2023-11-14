@@ -3,12 +3,16 @@ type: docker
 name: test
 
 steps:
- - name: backend
-   image: room_php
-   pull: never
-   commands:
-    - composer update
-    - cp .env.example .env
-    - php artisan key:generate
-    - php artisan jwt:secret -f
-    - php artisan test
+  - name: initial project
+    image: room_php
+    pull: never
+    commands:
+      - composer update
+      - cp .env.example .env
+      - php artisan key:generate
+      - php artisan jwt:secret -f   
+  - name: testing
+    images: room_php
+    pull: never
+    commands:
+      - php artisan test
