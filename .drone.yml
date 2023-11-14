@@ -12,7 +12,7 @@ steps:
       - php artisan key:generate
       - php artisan jwt:secret -f   
   - name: testing
-    images: room_php
+    image: room_php
     pull: never
     commands:
       - php artisan test
