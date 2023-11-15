@@ -21,3 +21,4 @@ yarn-error.log
 #basement
 ngrok.log
 /drone
+drone-compose.yml
