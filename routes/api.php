@@ -21,7 +21,7 @@ use Symfony\Component\Mailer\Messenger\MessageHandler;
 */
 Route::post('/user/login',[UserAuthController::class, 'login']);
 
-Route::group(['middleware'=> ['auth:api']],function($router){
+Route::group(['middleware'=> ['auth:api']],function(){
 
     Route::post('/user/logout',[UserAuthController::class, 'logout']);
 

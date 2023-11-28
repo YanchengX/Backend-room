@@ -36,5 +36,4 @@ class UserAuthController extends Controller
         return $this->respondWithToken(Auth::refresh());
     }
 
-    
 }
