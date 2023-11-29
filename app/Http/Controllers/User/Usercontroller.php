@@ -18,16 +18,12 @@ class Usercontroller extends Controller
 
     public function index()
     {
-        return response()->json([
-           $this->user->all()
-        ]);
+        return [$this->user->all()];
     }
     
     public function show($id)
     {
-        return response()->json([
-            $this->user->find($id)
-        ]);
+        return [$this->user->find($id)];
     }
 
     public function create(UserCreateRequest $request)
@@ -38,10 +34,7 @@ class Usercontroller extends Controller
             'password' => $data['password'],
             'logged_ip' => ''
         ]);
-        
-        return response()->json([
-            'status' => 'success'
-        ]);
+        return ['status' => 'success'];
     }
 
     public function update(UserUpdateRequest $request, $id)
@@ -52,17 +45,12 @@ class Usercontroller extends Controller
         $user['password'] = $data['password'];
         $user->save();
         
-        return response()->json([
-            'status' => 'success'
-        ]);
+        return ['status' => 'success'];
     }
 
     public function destroy($id)
     {
         $this->user->find($id)->delete();
-
-        return response()->json([
-            'status' => 'success'
-        ]);
+        return ['status' => 'success'];
     }
 }

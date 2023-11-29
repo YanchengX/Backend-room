@@ -24,9 +24,7 @@ class RoomHandleController extends Controller
     {
         $room = $this->room->find($id);
 
-        return response()->json([
-            $room->key
-        ]);
+        return [$room->key];
     }
 
     public function userJoin(UserJoinRequest $request)
@@ -36,16 +34,11 @@ class RoomHandleController extends Controller
         $key = $request->get('key');
         $locate = $this->room->find($room_id);   
         if($key != $locate['key']){
-            return response()->json([
-                'key mismatch'
-            ]);
+            return ['key mismatch'];
         }
 
         $model = $this->room_user->create(['room_id' => $room_id, 'user_id' => $user_id]);
-
-        return response()->json([
-            $model
-        ]);
+        return [$model];
     }
     
     public function userLeft(UserLeftRequest $request, $room_id)
@@ -53,14 +46,12 @@ class RoomHandleController extends Controller
         $user_id = $request->get('user_id');
         $model = $this->room_user->where(['room_id'=>$room_id, 'user_id'=>$user_id])->delete();
 
-        return response()->json([
-            $model
-        ]);
+        return [$model];
     }
     
     public function userKick()
     {
-
+        //TBI
     }
 
 }

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Message;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\FormatController;
 use App\Http\Requests\Message\PostTextRequest;
 use App\Models\Message;
 
-class MessageHandleController extends Controller
+class MessageHandleController extends FormatController
 {
     private $message;
     public function __construct(Message $message)
@@ -18,9 +18,7 @@ class MessageHandleController extends Controller
     {
         $msg = $this->message->where(['room_id'=>$room_id])->get();
         
-        return response()->json([
-            $msg
-        ]);
+        return [$msg];
     }
 
     public function postText(PostTextRequest $request, $room_id)
@@ -30,8 +28,6 @@ class MessageHandleController extends Controller
         $data['sent_time'] = now();
         $model = $this->message->create($data);
 
-        return response()->json([
-            $model
-        ]);
+        return [$model];
     }
 }

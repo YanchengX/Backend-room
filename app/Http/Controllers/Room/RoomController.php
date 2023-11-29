@@ -18,25 +18,17 @@ class RoomController extends Controller
     }
     
     public function index(){
-
-        return response()->json([
-            $this->room->all()
-        ]);
+        return [$this->room->all()];
     }
 
     public function show($id){
-        
-        return response()->json([
-           $this->room->find($id)
-        ]);
+        return [$this->room->find($id)];
     }
 
     public function create(RoomCreateRequest $request){
         $data = $request->all();
         
-        return response()->json([
-           $this->room->create($data), 
-        ]);
+        return [$this->room->create($data)];
     }
 
     public function update(RoomUpdateRequest $request, $id){
@@ -44,9 +36,6 @@ class RoomController extends Controller
     }
 
     public function destroy($id){
-        
-        return response()->json([
-            $this->room->find($id)->delete()
-        ]);
+        return [$this->room->find($id)->delete()];
     }
 }
