@@ -23,11 +23,40 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
+        $this->renderable(function (RoomExeption $e){
+            return true;
+        });
+
         $this->reportable(function (Throwable $e) {
             //
         });
     }
 
-    
+    /**
+     * Make standard json response 
+     */
+    public function render($request, Throwable $e)
+    {
+        //factory render chooce witch exception..
+        //category by exception-structure or api request route ->
+        
+        //by request route
+        if( $request->is('api/*') ){
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+                'exceptionCode' =>$e->getCode(),
+            ]);          
+        }
 
+        //category by exception attribute
+        // if ($e instanceof HttpException){
+        //     return response()->json([
+        //         'status' => 'error',
+        //         'message' => $e->getMessage(),
+        //         'exceptionCode' =>$e->getCode(),
+        //     ]);
+        // }
+
+    }
 }

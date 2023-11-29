@@ -4,15 +4,25 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\FormatController;
 use App\Http\Requests\Auth\UserLoginRequest;
+use App\Exceptions\ExceptionMethod;
 use Illuminate\Support\Facades\Auth;
-
+use App\Exceptions\RoomExeption;
 class UserAuthController extends FormatController
 {
+    private ExceptionMethod $exception;
+
+    public function __construct(
+        RoomExeption $exception
+        )
+    {
+        $this->exception =  $exception;
+    }
+
     public function login(UserLoginRequest $request)
     {
         $credentials = $request->all();
         if(! $token = Auth::attempt($credentials)){
-            return ['EventCode' => 1]; //TB exception handle
+            $this->exception->throwAuthFailedException();
         }
         return ['EventCode' => 0, 'jwt' => $token];
     }
