@@ -19,7 +19,12 @@ use Symfony\Component\Mailer\Messenger\MessageHandler;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::post('/user/login',[UserAuthController::class, 'login']);
+
+Route::group(['middleware' => ['action.log']],function(){
+    
+    Route::post('/user/login',[UserAuthController::class, 'login']);
+
+});
 
 Route::group(['middleware'=> ['auth:api']],function(){
 

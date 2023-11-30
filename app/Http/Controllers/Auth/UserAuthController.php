@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\FormatController;
 use App\Http\Requests\Auth\UserLoginRequest;
 use App\Exceptions\ExceptionMethod;
+use App\Exceptions\RoomException;
 use Illuminate\Support\Facades\Auth;
-use App\Exceptions\RoomExeption;
 class UserAuthController extends FormatController
 {
     private ExceptionMethod $exception;
 
     public function __construct(
-        RoomExeption $exception
+        RoomException $exception
         )
     {
         $this->exception =  $exception;

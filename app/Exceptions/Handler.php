@@ -23,10 +23,6 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->renderable(function (RoomExeption $e){
-            return true;
-        });
-
         $this->reportable(function (Throwable $e) {
             //
         });

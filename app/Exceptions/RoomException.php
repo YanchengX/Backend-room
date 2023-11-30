@@ -2,7 +2,7 @@
 
 namespace App\Exceptions;
 
-class RoomExeption implements ExceptionMethod
+class RoomException implements ExceptionMethod
 {
     public function throwAuthFailedException()
     {
