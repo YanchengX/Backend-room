@@ -1,61 +1,88 @@
-version: '3.8'
+version: "3.8"
 
 services:
+    roomapp:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: room_php
+        container_name: roomapp
+        restart: unless-stopped
+        tty: true
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+        networks:
+            - room-net
 
- roomapp:
-  build:
-   context: .
-   dockerfile: Dockerfile
-  image: room_php
-  container_name: roomapp
-  restart: unless-stopped
-  tty: true
-  working_dir: /var/www
-  volumes:
-   - ./:/var/www
-  networks:
-   - room-net
+    roomweb:
+        image: nginx
+        container_name: roomweb
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "88:80"
+        volumes:
+            - ./:/var/www
+            - ./nginx/conf.d:/etc/nginx/conf.d
+        networks:
+            - room-net
 
- roomweb:
-  image: nginx
-  container_name: roomweb
-  restart: unless-stopped
-  tty: true
-  ports:
-   - "88:80"
-   - "445:443"
-  volumes:
-   - ./:/var/www
-   - ./nginx/conf.d:/etc/nginx/conf.d
-  networks:
-   - room-net
+    roomdb:
+        image: mysql:8
+        container_name: roomdb
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "3307:3306"
+        environment:
+            #follow docker compose file match with .env then get sensitive value
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+        volumes:
+            - ./storage/mysql:/var/lib/mysql
+        networks:
+            - room-net
 
- roomdb:
-  image: mysql:8
-  container_name: roomdb
-  restart: unless-stopped
-  tty: true
-  ports:
-   - "3307:3306"
-  environment:
-   #follow docker compose file match with .env then get sensitive value
-   MYSQL_DATABASE: ${DB_DATABASE}
-   MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-  volumes:
-   - ./storage/mysql:/var/lib/mysql
-  networks:
-   - room-net
-  
- roomredis:
-  image: redis:7.2-rc3-alpine3.18
-  container_name: roomredis
-  restart: unless-stopped
-  tty: true
-  ports:
-   - "6380:6379"
-  networks:
-   - room-net
+    roomredis:
+        image: redis:7.2-rc3-alpine3.18
+        container_name: roomredis
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "6380:6379"
+        networks:
+            - room-net
+
+#  drone-server:
+#   image: drone/drone:2
+#   ports:
+#    - 87:80
+#    - 449:443
+#   restart: always
+#   volumes:
+#    - ./storage/app/public:/var/lib/drone
+#   environment:
+#    DRONE_GITHUB_CLIENT_ID: 3e1de5bd6cc15edab073
+#    DRONE_GITHUB_CLIENT_SECRET: 6d513c46c76018f4cdd260ee647d64f68c02a05c
+#    DRONE_RPC_SECRET: 6d513c46c76018f4cdd260ee647d64f68c02a05c
+#    DRONE_SERVER_HOST: e692-18-140-181-114.ngrok-free.app
+#    DRONE_SERVER_PROTO: https
+
+#  drone-runner:
+#   image: drone/drone-runner-docker:1
+#   container_name: drone-runner
+#   restart: always
+#   depends_on:
+#     - drone-server
+#   volumes:
+#     - /var/run/docker.sock:/var/run/docker.sock
+#   environment:
+#    DRONE_RPC_HOST: drone-server
+#    DRONE_RPC_PROTO: http
+#    DRONE_RPC_SECRET: 6d513c46c76018f4cdd260ee647d64f68c02a05c
+#    DRONE_RUNNER_CAPACITY: 2
 
 networks:
- room-net:
-  driver: bridge
+    room-net:
+        driver: bridge
