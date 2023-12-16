@@ -26,6 +26,10 @@ class ActionLog
      */
     public function terminate(Request $request, Response $response): void
     {
+        if (env('APP_ENV') === 'testing'){
+            return;
+        }
+
         $info = [
             'RequestMethod' => $request->method(),
             'RequestPath' => $request->path(),
