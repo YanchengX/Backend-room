@@ -20,22 +20,23 @@ use Symfony\Component\Mailer\Messenger\MessageHandler;
 |
 */
 
-Route::group(['middleware' => ['action.log']],function(){
-    
-    Route::post('/user/login',[UserAuthController::class, 'login']);
+Route::group(['middleware' => ['action.log']], function () {
+
+    Route::post('/user/login', [UserAuthController::class, 'login']);
 
 });
 
-Route::group(['middleware'=> ['auth:api']],function(){
+Route::group(['middleware' => ['auth:api']], function () {
 
-    Route::post('/user/logout',[UserAuthController::class, 'logout']);
+    Route::post('/user/logout', [UserAuthController::class, 'logout']);
 
     //user
-    Route::get('/user',[Usercontroller::class, 'index']);
-    Route::get('/user/{id}',[Usercontroller::class, 'show']);
-    Route::post('/user',[Usercontroller::class, 'create']);
-    Route::put('/user/{id}',[Usercontroller::class, 'update']);
-    Route::delete('/user/{id}',[Usercontroller::class, 'destroy']);
+    Route::get('/user', [Usercontroller::class, 'index']);
+    Route::get('/user/{id}', [Usercontroller::class, 'show']);
+    Route::post('/user', [Usercontroller::class, 'create']);
+    Route::put('/user/{id}', [Usercontroller::class, 'update']);
+    Route::delete('/user/{id}', [Usercontroller::class, 'destroy']);
+
 
     //room
     Route::get('/room', [RoomController::class, 'index']);
@@ -43,13 +44,18 @@ Route::group(['middleware'=> ['auth:api']],function(){
     Route::post('/room', [RoomController::class, 'create']);
     Route::patch('/room/{id}', [RoomController::class, 'update']);
     Route::delete('/room/{id}', [RoomController::class, 'destroy']);
+    //filter and roomCount and seperate from {id} handle
+    Route::get('/rooms/search', [RoomController::class, 'getFilterRoom']);
+    Route::get('/rooms/pagination', [RoomController::class, 'getRoomCount']);
+
 
     //room handle
     Route::post('/room/key/{id}', [RoomHandleController::class, 'getKey']);
     Route::post('/room/join', [RoomHandleController::class, 'userJoin']);
     Route::post('/room/left/{id}', [RoomHandleController::class, 'userLeft']);
 
+
     //msg handle
-    Route::get('/message/{room_id}',[MessageHandleController::class, 'getText']);
-    Route::post('/message/{room_id}',[MessageHandleController::class, 'postText']);
+    Route::get('/message/{room_id}', [MessageHandleController::class, 'getText']);
+    Route::post('/message/{room_id}', [MessageHandleController::class, 'postText']);
 });

@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Repositorires;
+namespace App\Repositories;
 
 use App\Models\User;
 
-class UserRepository{
-    
+class UserRepository
+{
+
     private $user;
-    
+
     public function __construct(User $user)
     {
         $this->user = $user;
     }
-    
+
     public function getAllUser()
     {
         return $this->user->all();
@@ -22,7 +23,7 @@ class UserRepository{
     {
         return $this->user->find($id);
     }
-    
+
     public function createUser($data)
     {
         $user = $this->user->create([
@@ -37,7 +38,7 @@ class UserRepository{
         $user = $this->user->find($id);
         $user['name'] = $data['name'];
         $user['password'] = $data['password'];
-        
+
         return $user->save();
     }
 

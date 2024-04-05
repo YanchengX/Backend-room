@@ -13,7 +13,7 @@ class RoomHandleController extends Controller
 {
     private $room;
     private $room_user;
-    
+
     public function __construct(Room $room, RoomUser $room_user)
     {
         $this->room = $room;
@@ -32,23 +32,23 @@ class RoomHandleController extends Controller
         $room_id = $request->get('room_id');
         $user_id = $request->get('user_id');
         $key = $request->get('key');
-        $locate = $this->room->find($room_id);   
-        if($key != $locate['key']){
+        $locate = $this->room->find($room_id);
+        if ($key != $locate['key']) {
             return ['key mismatch'];
         }
 
         $model = $this->room_user->create(['room_id' => $room_id, 'user_id' => $user_id]);
         return [$model];
     }
-    
+
     public function userLeft(UserLeftRequest $request, $room_id)
     {
         $user_id = $request->get('user_id');
-        $model = $this->room_user->where(['room_id'=>$room_id, 'user_id'=>$user_id])->delete();
+        $model = $this->room_user->where(['room_id' => $room_id, 'user_id' => $user_id])->delete();
 
         return [$model];
     }
-    
+
     public function userKick()
     {
         //TBI

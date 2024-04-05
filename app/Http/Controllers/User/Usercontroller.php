@@ -20,7 +20,7 @@ class Usercontroller extends Controller
     {
         return [$this->user->all()];
     }
-    
+
     public function show($id)
     {
         return [$this->user->find($id)];
@@ -44,7 +44,7 @@ class Usercontroller extends Controller
         $user['name'] = $data['name'];
         $user['password'] = $data['password'];
         $user->save();
-        
+
         return ['status' => 'success'];
     }
 

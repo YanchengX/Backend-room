@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Repositorires;
+namespace App\Repositories;
 
 use App\Models\Message;
 
-class MessageRepository{
-    
+class MessageRepository
+{
+
     private $message;
-    
+
     public function __construct(Message $message)
     {
         $this->message = $message;
     }
-    
+
     public function getText($room_id)
     {
-        return $this->message->where(['room_id'=>$room_id])->get();
+        return $this->message->where(['room_id' => $room_id])->get();
     }
 
     public function postText($data, $room_id)
