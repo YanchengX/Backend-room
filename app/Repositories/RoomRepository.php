@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Room;
+use Illuminate\Support\Facades\DB;
 
 class RoomRepository
 {
@@ -52,7 +53,7 @@ class RoomRepository
 
     public function getFilterRoom($currentPage, $query)
     {
-        $itemPerPage = 3;
+        $itemPerPage = 6;
         $offset = ($currentPage - 1) * $itemPerPage;
 
         $result = $this->room->select('id', 'name')
@@ -64,10 +65,11 @@ class RoomRepository
             ->get();
         return $result;
     }
+
     public function getRoomCount($query)
     {
-        $itemPerPage = 3;
-        $result = $this->room->select(\DB::raw("COUNT(*)"))
+        $itemPerPage = 6;
+        $result = $this->room->select(DB::raw("COUNT(*)"))
             ->where('id', 'LIKE', "%$query%")
             ->orWhere('name', 'LIKE', "%$query%")
             ->get();
