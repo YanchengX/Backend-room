@@ -38,10 +38,9 @@ steps:
       - php artisan jwt:secret -f  
       - php artisan test
 trigger:
-    event:
-        exclude:
-            - pull_request
-
+  event:
+    exclude:
+      - pull_request
 
 ---
 kind: pipeline
@@ -57,8 +56,10 @@ steps:
 depends_on:
   - test
 trigger:
-    branch:
-        - main
-    event:
-        exclude:
-            - pull_request
+  branch:
+      - main
+  event:
+    include:
+      - push
+    exclude:
+      - pull_request
