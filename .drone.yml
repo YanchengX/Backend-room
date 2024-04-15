@@ -7,17 +7,62 @@ steps:
     image: room_php
     pull: never
     commands:
-      - composer update
-      - cp .env.example .env
-      - php artisan key:generate
-      - php artisan jwt:secret -f   
+      - composer update 
   - name: testing
     image: room_php
     environment:
+      APP_ENV:
+        from_secret: APP_ENV
+      APP_KEY:
+        from_secret: APP_KEY
+      DB_HOST:
+        from_secret: DB_HOST
+      DB_PORT:
+        from_secret: DB_PORT
+      DB_DATABASE:
+        from_secret: DB_DATABASE
+      DB_USERNAME:
+        from_secret: DB_USERNAME
+      DB_PASSWORD:
+        from_secret: DB_PASSWORD
+      REDIS_HOST:
+        from_secret: REDIS_HOST
+      REDIS_PASSWORD: 
+        from_secret: REDIS_PASSWORD
+      REDIS_PORT:
+        from_secret: REDIS_PORT
       TELEGRAM_LOGGER_BOT_TOKEN:
         from_secret: TELEGRAM_LOGGER_BOT_TOKEN
       TELEGRAM_LOGGER_CHAT_ID=:
         from_secret: TELEGRAM_LOGGER_CHAT_ID
     pull: never
     commands:
+      - cp .env.example .env
+      - php artisan key:generate
+      - php artisan jwt:secret -f  
       - php artisan test
+trigger:
+    event:
+        exclude:
+            - pull_request
+
+
+---
+kind: pipeline
+type: docker
+name: deploy-to-main
+
+steps:
+  - name: initial project
+    image: room_php
+    pull: never
+    commands:
+      - composer i
+depends_on:
+  - test
+trigger:
+    branch:
+        - main
+    event:
+        exclude:
+            - pull_request
