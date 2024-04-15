@@ -13,8 +13,6 @@ steps:
     environment:
       APP_ENV:
         from_secret: APP_ENV
-      APP_KEY:
-        from_secret: APP_KEY
       DB_HOST:
         from_secret: DB_HOST
       DB_PORT:
