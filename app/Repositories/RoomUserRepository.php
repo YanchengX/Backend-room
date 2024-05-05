@@ -3,15 +3,19 @@
 namespace App\Repositories;
 
 use App\Models\RoomUser;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class RoomUserRepository
 {
 
     private $room_user;
+    private $user;
 
-    public function __construct(RoomUser $roomUser)
+    public function __construct(RoomUser $roomUser,  User $user)
     {
         $this->room_user = $roomUser;
+        $this->user = $user;
     }
 
     public function userJoin($data)
@@ -34,6 +38,15 @@ class RoomUserRepository
 
     public function userKick()
     {
+    }
 
+    public function getUserList($room_id)
+    {
+        $userList = DB::table('room_users')
+            ->leftJoin('users', 'room_users.user_id', '=', 'users.id')
+            ->select('user_id', 'name')
+            ->where('room_id', '=', $room_id)
+            ->get();
+        return $userList;
     }
 }

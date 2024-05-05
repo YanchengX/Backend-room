@@ -1,5 +1,12 @@
 <?php
 
+use App\Broadcasting\Message as BroadcastingMessage;
+use App\Events\updateMessaged;
+use App\Models\Message;
+use App\Models\RoomUser;
+use App\Models\User;
+use BeyondCode\LaravelWebSockets\Facades\WebSocketsRouter;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -15,4 +22,8 @@ use Illuminate\Support\Facades\Broadcast;
 
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
+});
+
+Broadcast::channel('room_users-{room_id}', function () {
+    return true;
 });

@@ -5,9 +5,7 @@ use App\Http\Controllers\Message\MessageHandleController;
 use App\Http\Controllers\Room\RoomController;
 use App\Http\Controllers\Room\RoomHandleController;
 use App\Http\Controllers\User\Usercontroller;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Symfony\Component\Mailer\Messenger\MessageHandler;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,42 +18,49 @@ use Symfony\Component\Mailer\Messenger\MessageHandler;
 |
 */
 
+
 Route::group(['middleware' => ['action.log']], function () {
 
     Route::post('/user/login', [UserAuthController::class, 'login']);
-
+    Route::post('/user', [Usercontroller::class, 'create']); //register
 });
 
 Route::group(['middleware' => ['auth:api']], function () {
 
     Route::post('/user/logout', [UserAuthController::class, 'logout']);
-
+    Route::get('/user/refresh', [UserAuthController::class, 'refresh']);
     //user
     Route::get('/user', [Usercontroller::class, 'index']);
     Route::get('/user/{id}', [Usercontroller::class, 'show']);
-    Route::post('/user', [Usercontroller::class, 'create']);
     Route::put('/user/{id}', [Usercontroller::class, 'update']);
     Route::delete('/user/{id}', [Usercontroller::class, 'destroy']);
 
+    //user handle for statistic
+    Route::get('/users/totalOnline', [Usercontroller::class, 'getAllOnlineUser']);
+    Route::get('/users/getCreateRecently', [Usercontroller::class, 'getUserCreatedRecently']);
+    Route::get('/users/getPerUserInfo', [Usercontroller::class, 'getPerUserInfo']);
 
     //room
     Route::get('/room', [RoomController::class, 'index']);
     Route::get('/room/{id}', [RoomController::class, 'show']);
     Route::post('/room', [RoomController::class, 'create']);
-    Route::patch('/room/{id}', [RoomController::class, 'update']);
-    Route::delete('/room/{id}', [RoomController::class, 'destroy']);
+
     //filter and roomCount and seperate from {id} handle
     Route::get('/rooms/search', [RoomController::class, 'getFilterRoom']);
     Route::get('/rooms/pagination', [RoomController::class, 'getRoomCount']);
-
+    Route::get('/rooms/roomTotalCount', [RoomController::class, 'getRoomCountTotal']);
 
     //room handle
-    Route::post('/room/key/{id}', [RoomHandleController::class, 'getKey']);
-    Route::post('/room/join', [RoomHandleController::class, 'userJoin']);
-    Route::post('/room/left/{id}', [RoomHandleController::class, 'userLeft']);
+    Route::post('/rooms/join', [RoomHandleController::class, 'userJoin']);
 
+    //msg handle and room auth handle
+    Route::get('/rooms/getUser/{id}', [RoomHandleController::class, 'getRoomUser']);
 
-    //msg handle
-    Route::get('/message/{room_id}', [MessageHandleController::class, 'getText']);
-    Route::post('/message/{room_id}', [MessageHandleController::class, 'postText']);
+    Route::group(['middleware' => ['userIn']], function () {
+        Route::get('/message/{room_id}', [MessageHandleController::class, 'getText']);
+        Route::post('/message/{room_id}', [MessageHandleController::class, 'postText']);
+        Route::patch('/room/{id}', [RoomController::class, 'update']);
+        Route::delete('/room/{id}', [RoomController::class, 'destroy']);
+        Route::post('/rooms/left/{id}', [RoomHandleController::class, 'userLeft']);
+    });
 });

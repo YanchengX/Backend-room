@@ -1,5 +1,5 @@
 
-FROM php:8.1-fpm
+FROM php:8.2-fpm
 
 MAINTAINER boesanyan
 
@@ -10,7 +10,9 @@ RUN apt-get update && apt-get install -y \
     vim \
     build-essential \
     libzip-dev \
-    locales 
+    locales \
+    supervisor \
+    lsof
 
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 
@@ -23,8 +25,11 @@ RUN docker-php-ext-install pdo_mysql pdo mysqli
 #composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+#supervisor for Websocket
+COPY websockets.conf /etc/supervisor/conf.d/ 
+
 COPY . /var/www
 
-EXPOSE 9000
+EXPOSE 9000 6001
 
 CMD ["php-fpm"]

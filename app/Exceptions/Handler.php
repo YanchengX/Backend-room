@@ -35,14 +35,14 @@ class Handler extends ExceptionHandler
     {
         //factory render chooce witch exception..
         //category by exception-structure or api request route ->
-        
+
         //by request route
-        if( $request->is('api/*') ){
+        if ($request->is('api/*')) {
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),
-                'exceptionCode' =>$e->getCode(),
-            ]);          
+                'exceptionCode' => $e->getCode(),
+            ]);
         }
 
         //category by exception attribute

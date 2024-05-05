@@ -53,10 +53,14 @@ class RoomRepository
 
     public function getFilterRoom($currentPage, $query)
     {
-        $itemPerPage = 6;
+        $itemPerPage = 10;
         $offset = ($currentPage - 1) * $itemPerPage;
 
-        $result = $this->room->select('id', 'name')
+        $result = $this->room->select(
+            'id',
+            'name',
+            DB::raw('(CASE WHEN `key` IS NOT NULL THEN 1 ELSE 0 END) AS isLock')
+        )
             ->where('id', 'LIKE', "%$query%")
             ->orWhere('name', 'LIKE', "%$query%")
             ->orderBy('id')
@@ -68,7 +72,7 @@ class RoomRepository
 
     public function getRoomCount($query)
     {
-        $itemPerPage = 6;
+        $itemPerPage = 10;
         $result = $this->room->select(DB::raw("COUNT(*)"))
             ->where('id', 'LIKE', "%$query%")
             ->orWhere('name', 'LIKE', "%$query%")
@@ -76,5 +80,10 @@ class RoomRepository
         $page = ceil($result[0]["COUNT(*)"] / $itemPerPage);
 
         return $page;
+    }
+
+    public function getRoomCountTotal()
+    {
+        return count($this->room->get('id'));
     }
 }

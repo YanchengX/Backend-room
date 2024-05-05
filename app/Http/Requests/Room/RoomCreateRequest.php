@@ -23,16 +23,16 @@ class RoomCreateRequest extends FormRequest
     {
         return [
             'name' => ['required'],
-            'key' => ['required'],
+            // 'key' => ['required'],
             'owner' => ['required'],
         ];
     }
-    
+
     public function messages(): array
     {
-        return[
+        return [
             'name' => __('validation.required'),
-            'key' => __('validation.required'),
+            // 'key' => __('validation.required'),
             'owner' => __('validation.required'),
         ];
     }

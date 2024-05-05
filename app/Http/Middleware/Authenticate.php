@@ -2,22 +2,19 @@
 
 namespace App\Http\Middleware;
 
+use Closure;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 class Authenticate extends Middleware
 {
-    // override unathenticated parent method to avoid using redirectTo
-    protected function unauthenticated($request, array $guards)
+    public function handle($request, Closure $next, ...$guards)
     {
-        //block requirement and return error for request any guarded api;
-        return;
+        if (!$user = Auth::user()) {
+            return response()->json([
+                'message' => 'identify unauthenticated'
+            ]);
+        }
+        return $next($request);
     }
-
-    /**
-     * Get the path the user should be redirected to when they are not authenticated.
-     */
-    // protected function redirectTo(Request $request): ?string
-    // {
-    //     return $request->expectsJson() ? null : ('/');
-    // }
 }
