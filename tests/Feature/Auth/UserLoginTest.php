@@ -24,7 +24,7 @@ class UserLoginTest extends TestCase
             'name' => 'abcd',
             'password' => 'fuck'
         ];
-        
+
         $response = $this->post($this->url, $user);
 
         $response->assertStatus(200);
@@ -46,7 +46,7 @@ class UserLoginTest extends TestCase
         ];
 
         $response = $this->post($this->url, $user);
-        
+
         // $response->assertUnauthorized();
     }
     /**
@@ -55,7 +55,7 @@ class UserLoginTest extends TestCase
      */
     public function invalidInput()
     {
-        return[
+        return [
             'no name' => [
                 ['password' => '1234']
             ],

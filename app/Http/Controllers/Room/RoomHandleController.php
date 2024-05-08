@@ -53,12 +53,8 @@ class RoomHandleController extends FormatController
         if (!$room_user->isEmpty()) {
             return ['EventCode' => 4]; //error handle, already join
         }
-        if ($room->key == '') { //room unlock
-            return ['EventCode' => 1];
-        }
-
-        if ($key[0] != $room->key) {
-            return ['EventCode' => '3']; //error handle key wrong
+        if ($room->key != '' && $key[0] != $room->key) {
+            return ['EventCode' => 3]; //error handle key wrong, when room is locked
         }
 
         $model = $this->room_user->create(['room_id' => intval($room_id[0]), 'user_id' => intval($user_id[0])]);
@@ -83,7 +79,7 @@ class RoomHandleController extends FormatController
 
     public function getRoomUser(Request $request, $id)
     {
-        return ['data' => $this->room_user_repo->getUserList($id)];
+        return ['EventCode' => 1, 'data' => $this->room_user_repo->getUserList($id)];
     }
 
     public function roomOwnerChange()

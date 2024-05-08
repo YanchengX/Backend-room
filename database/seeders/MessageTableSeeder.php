@@ -15,6 +15,6 @@ class MessageTableSeeder extends Seeder
     public function run(): void
     {
         DB::table('messages')->truncate();
-        Message::factory(30)->create();
+        Message::factory(15)->create();
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\UserAuthController;
+use App\Http\Controllers\HealthController;
 use App\Http\Controllers\Message\MessageHandleController;
 use App\Http\Controllers\Room\RoomController;
 use App\Http\Controllers\Room\RoomHandleController;
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/health', HealthController::class);
 
 Route::group(['middleware' => ['action.log']], function () {
 

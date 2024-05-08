@@ -33,21 +33,22 @@ class RoomController extends FormatController
     public function index()
     {
         $data = $this->room->all();
-        return ['data' => $data];
+        return ['EventCode' => 1, 'data' => $data];
     }
 
     public function show($id)
     {
-        return ['data' => $this->room->find($id)];
+        return ['EventCode' => 1, 'data' => $this->room->find($id)];
     }
 
     // room name key owner
     public function create(RoomCreateRequest $request)
     {
-        //aslo room_user initial by owner to be handle..
         $data = $request->all();
+        $newRoom = $this->room->create($data);
+        $this->room_user->create(['room_id' => $newRoom->id, "user_id" => $data['owner']]);
 
-        return ['isSucceed' => 1, 'data' => $this->room->create($data)];
+        return ['EventCode' => 1, 'data' => $newRoom->id];
     }
 
     public function update(RoomUpdateRequest $request, $id)
@@ -84,7 +85,7 @@ class RoomController extends FormatController
             $data = $this->roomRepo->getFilterRoom($page, $query);
             return ['data' => $data];
         }
-        return [];
+        return ['EventCode' => 1];
     }
 
     public function getRoomCount(Request $request)
@@ -94,13 +95,13 @@ class RoomController extends FormatController
             $data = $this->roomRepo->getRoomCount($query);
             return ['data' => $data];
         }
-        return [];
+        return ['EventCode' => 1];
     }
 
     public function getRoomCountTotal(Request $request)
     {
         $data = $this->roomRepo->getRoomCountTotal();
 
-        return ['data' => $data];
+        return ['EventCode' => 1, 'data' => $data];
     }
 }

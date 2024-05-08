@@ -24,9 +24,14 @@ class MessageHandleController extends FormatController
 
     public function getText($room_id)
     {
-        $msg = $this->message->where(['room_id' => $room_id])->get();
+        // select message all and user name by user_id
+        $msg = $this->message
+            ->select('messages.id', 'messages.room_id', 'messages.user_id', 'messages.sent_time', 'messages.content', 'users.name')
+            ->join('users', 'users.id', '=', 'messages.user_id')
+            ->where(['room_id' => $room_id])
+            ->get();
 
-        return ['data' => $msg];
+        return ['EventCode' => 1, 'data' => $msg];
     }
 
     public function postText(PostTextRequest $request, $room_id)
@@ -36,8 +41,9 @@ class MessageHandleController extends FormatController
         $data['user_id'] = $request->get('user_id');
         $data['sent_time'] = Date(now());
 
+        //create msg and join to get user name
         $messageModel = $this->message->create($data);
-        $room_userModel = $this->room_user
+        $room_userModel = $this->room_user  //get room user model to check who is it
             ->where('room_id', $room_id)
             ->where('user_id', $data['user_id'])
             ->get()->first();

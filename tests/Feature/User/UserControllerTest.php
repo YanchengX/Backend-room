@@ -22,7 +22,7 @@ class UserControllerTest extends TestCase
         $this->withHeaders([
             'Authorization' => $this->generateToken()
         ]);
-        
+
         $this->user = [
             'name' => 'ajgjef',
             'password' => 'asdfasdf'
@@ -32,21 +32,21 @@ class UserControllerTest extends TestCase
     public function testIndexPass()
     {
         $response = $this->get($this->url);
-        
+
         $response->assertOk();
     }
 
     public function testShowPass()
     {
-        $response = $this->get($this->url.'/1');
-        
+        $response = $this->get($this->url . '/1');
+
         $response->assertOk();
     }
 
     public function testCreatePass()
-    {   
+    {
         $response = $this->post($this->url, $this->user);
-        
+
         $response->assertOk();
     }
 
@@ -61,8 +61,8 @@ class UserControllerTest extends TestCase
 
         $user = User::where('name', '=', $this->user['name'])->first();
 
-        $response = $this->put($this->url.'/'.$user['id'], $data);
-        
+        $response = $this->put($this->url . '/' . $user['id'], $data);
+
         $response->assertOk();
     }
 
@@ -72,10 +72,8 @@ class UserControllerTest extends TestCase
 
         $user = User::where('name', '=', $this->user['name'])->first();
 
-        $response = $this->delete($this->url.'/'.$user['id']);
-        
+        $response = $this->delete($this->url . '/' . $user['id']);
+
         $response->assertOk();
     }
-
 }
-

@@ -15,6 +15,6 @@ class RoomTableSeeder extends Seeder
     public function run(): void
     {
         DB::table('rooms')->truncate();
-        Room::factory(30)->create();
+        Room::factory(15)->create();
     }
 }

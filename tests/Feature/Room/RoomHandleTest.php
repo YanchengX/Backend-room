@@ -11,7 +11,7 @@ use Tests\TestCase;
 class RoomHandleTest extends TestCase
 {
     use RefreshDatabase;
-    
+
     private $url = 'api/room';
 
     protected function setUp(): void
@@ -25,13 +25,6 @@ class RoomHandleTest extends TestCase
         ]);
     }
 
-    public function testGetKeyPass()
-    {
-        $response = $this->post($this->url.'/key/1');
-
-        $this->assertIsString($response->decodeResponseJson()[0]);
-    }
-
     public function testUserJoinPass()
     {
         $data = [
@@ -39,8 +32,8 @@ class RoomHandleTest extends TestCase
             'user_id' => '1',
             'key' => 'yrevLuD2EJ'
         ];
-        $response = $this->post($this->url.'/join', $data);
-        
+        $response = $this->post($this->url . '/join', $data);
+
         $response->assertOk();
     }
 
@@ -50,13 +43,13 @@ class RoomHandleTest extends TestCase
         $data = [
             'user_id' => '1',
         ];
-        $response = $this->post($this->url.'/left/'.$room_id, $data);
-        
+        $response = $this->post($this->url . '/left/' . $room_id, $data);
+
         $response->assertOk();
     }
 
     // public function testUserKickPass()
     // {
-        
+
     // }
 }

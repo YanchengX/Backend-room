@@ -10,7 +10,7 @@ abstract class TestCase extends BaseTestCase
 
     public function generateToken()
     {
-        $token = $this->post('api/user/login',[
+        $token = $this->post('api/user/login', [
             'name' => 'abcd',
             'password' => 'fuck'
         ]);

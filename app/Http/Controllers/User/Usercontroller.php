@@ -26,12 +26,12 @@ class Usercontroller extends FormatController
 
     public function index()
     {
-        return ['data' => $this->user->all()];
+        return ['EventCode' => 1, 'data' => $this->user->all()];
     }
 
     public function show($id)
     {
-        return ['data' => $this->user->find($id)];
+        return ['EventCode' => 1, 'data' => $this->user->find($id)];
     }
 
     public function create(UserCreateRequest $request)
@@ -64,17 +64,17 @@ class Usercontroller extends FormatController
 
     public function getAllOnlineUser(Request $request)
     {
-        return ['data' => count($this->memo::keys("*"))];
+        return ['EventCode' => 1, 'data' => count($this->memo::keys("*"))];
     }
 
     public function getUserCreatedRecently(Request $request)
     {
         $count = $this->user_repo->getUserCreatedRecently();
-        return ['data' => $count];
+        return ['EventCode' => 1, 'data' => $count];
     }
 
     public function getPerUserInfo(Request $request)
     {
-        return ['data' => $this->user_repo->getPerUserInfo()];
+        return ['EventCode' => 1, 'data' => $this->user_repo->getPerUserInfo()];
     }
 }

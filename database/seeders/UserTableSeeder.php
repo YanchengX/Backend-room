@@ -20,6 +20,6 @@ class UserTableSeeder extends Seeder
             'name' => 'abcd',
             'password' => 'fuck'
         ]);
-        User::factory(30)->create();
+        User::factory(15)->create();
     }
 }

@@ -18,14 +18,20 @@ class UpdateMessaged implements ShouldBroadcast
 
     private $message;
     private $room_user;
-
+    private $data;
     /**
      * Create a new event instance.
      */
-    public function __construct(Message $message, RoomUser $room_user)
+    public function __construct(Message $msg, RoomUser $room_user)
     {
-        $this->message = $message;
+        $this->message = $msg;
         $this->room_user = $room_user;
+
+        $this->data = $this->message
+            ->select('messages.id', 'messages.room_id', 'messages.user_id', 'messages.sent_time', 'messages.content', 'users.name')
+            ->join('users', 'users.id', '=', 'messages.user_id')
+            ->where(['messages.id' => $msg->id])
+            ->get()->first()->toArray();
     }
 
     /**
@@ -47,6 +53,6 @@ class UpdateMessaged implements ShouldBroadcast
      */
     public function broadcastWith(): array
     {
-        return [$this->message];
+        return [$this->data];
     }
 }

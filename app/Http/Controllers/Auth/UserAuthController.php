@@ -33,7 +33,7 @@ class UserAuthController extends FormatController
         }
         $this->memo::set($this->user::id(), True, 'EX', 3600); //follow jwt exp time
 
-        return ['jwt' => "$token"];
+        return ['EventCode' => 1, 'jwt' => "$token"];
     }
 
     public function logout()
@@ -48,6 +48,6 @@ class UserAuthController extends FormatController
     {
         $this->memo::set($this->user::id(), True, 'EX', 3600);
         $refreshToken = ($this->user::refresh());
-        return ['refreshToken' => $refreshToken];
+        return ['EventCode' => 1, 'refreshToken' => $refreshToken];
     }
 }
