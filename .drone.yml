@@ -21,12 +21,10 @@ steps:
         from_secret: DB_USERNAME
       DB_PASSWORD:
         from_secret: DB_PASSWORD
-      REDIS_HOST:
-        from_secret: REDIS_HOST
+      REDIS_HOST: roomredis
       REDIS_PASSWORD:
         from_secret: REDIS_PASSWORD
-      REDIS_PORT:
-        from_secret: REDIS_PORT
+      REDIS_PORT: 6379
       TELEGRAM_LOGGER_BOT_TOKEN:
         from_secret: TELEGRAM_LOGGER_BOT_TOKEN
       TELEGRAM_LOGGER_CHAT_ID=:
