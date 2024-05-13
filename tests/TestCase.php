@@ -14,6 +14,7 @@ abstract class TestCase extends BaseTestCase
             'name' => 'abcd',
             'password' => 'fuck'
         ]);
+        dd($token);
         return $token['message']['jwt'];
     }
 }
