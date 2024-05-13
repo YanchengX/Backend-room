@@ -7,7 +7,7 @@ steps:
     image: room_php
     pull: never
     commands:
-      - composer update 
+      - composer update
   - name: testing
     image: room_php
     environment:
@@ -23,7 +23,7 @@ steps:
         from_secret: DB_PASSWORD
       REDIS_HOST:
         from_secret: REDIS_HOST
-      REDIS_PASSWORD: 
+      REDIS_PASSWORD:
         from_secret: REDIS_PASSWORD
       REDIS_PORT:
         from_secret: REDIS_PORT
@@ -35,10 +35,42 @@ steps:
     commands:
       - cp .env.example .env
       - php artisan key:generate
-      - php artisan jwt:secret -f  
+      - php artisan jwt:secret -f
       - php artisan test
 trigger:
   event:
+    exclude:
+      - pull_request
+
+---
+kind: pipeline
+type: docker
+name: deploy-to-dev
+
+steps:
+  - name: remote-ssh
+    image: appleboy/drone-ssh
+    pull: true
+    settings:
+      host:
+        - boesanyan.online
+      username: lilitalytom628
+      key:
+        from_secret: ssh_private_key
+      port: 22
+      command_timeout: 2m
+      script:
+        - cd ~/Chatroom
+        - git checkout dev
+        - git pull origin dev
+# depends_on:
+#   - test
+trigger:
+  branch:
+    - dev
+  event:
+    include:
+      - push
     exclude:
       - pull_request
 
@@ -57,7 +89,7 @@ depends_on:
   - test
 trigger:
   branch:
-      - main
+    - main
   event:
     include:
       - push
