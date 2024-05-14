@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Room;
 
 use App\Events\UserJoin;
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\FormatController;
 use App\Http\Requests\Room\UserJoinRequest;
 use App\Http\Requests\Room\UserLeftRequest;
@@ -12,8 +11,6 @@ use App\Models\RoomUser;
 use App\Repositories\RoomUserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
-use function PHPUnit\Framework\isEmpty;
 
 class RoomHandleController extends FormatController
 {

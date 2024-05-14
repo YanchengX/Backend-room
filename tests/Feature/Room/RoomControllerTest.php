@@ -36,14 +36,14 @@ class RoomControllerTest extends TestCase
     public function testIndexPass()
     {
         $response = $this->get($this->url);
-        
+
         $response->assertOk();
     }
 
     public function testShowPass()
     {
-        $response = $this->get($this->url.'/1');
-        
+        $response = $this->get($this->url . '/1');
+
         $response->assertOk();
     }
 
@@ -63,18 +63,30 @@ class RoomControllerTest extends TestCase
     //     ];
     //     $room = Room::where('name', '=', 'ajgjef')->first();
     //     $response = $this->patch($this->url.'/'.$room['id'], $data);
-        
+
     //     $response->assertOk();
     // }
 
     public function testDestroyPass()
-    {   
+    {
 
         $this->post($this->url, $this->room);
-        
+
         $room = Room::where('name', '=', 'ajgjef')->first();
-        $response = $this->delete($this->url.'/'.$room['id']);
-        
+        $response = $this->delete($this->url . '/' . $room['id']);
+
         $response->assertOk();
+    }
+
+    public function testGetFilterRoomPass()
+    {
+    }
+
+    public function testGetRoomCountPass()
+    {
+    }
+
+    public function testGetRoomCountTotalPass()
+    {
     }
 }

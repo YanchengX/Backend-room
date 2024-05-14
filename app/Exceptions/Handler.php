@@ -38,12 +38,12 @@ class Handler extends ExceptionHandler
         //category by exception-structure or api request route ->
 
         //by request route
-        if ($request->is('api/*')) {
+        if ($request->is('api/*') && $e instanceof ApiException) {
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),
                 'exceptionCode' => $e->getCode(),
-            ]);
+            ], $e->getStatusCode());
         }
 
         //category by exception attribute

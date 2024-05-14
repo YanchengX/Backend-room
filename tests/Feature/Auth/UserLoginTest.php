@@ -18,7 +18,7 @@ class UserLoginTest extends TestCase
         $this->seed(UserTableSeeder::class);
     }
 
-    public function testloginPass()
+    public function testLoginPass()
     {
         $user = [
             'name' => 'abcd',
@@ -31,36 +31,30 @@ class UserLoginTest extends TestCase
         $this->assertNotEmpty(['jwt']);
     }
 
-    // public function testValidationError($validate)
-    // {
-    //     $response = $this->post($this->url, $validate);
-
-    //     dd($response);
-    // }
-
-    public function testFailAuth()
+    /**
+     * @dataProvider invalidInputProvider
+     * 
+     * @param array $user
+     */
+    public function testFailAuth(array $user)
     {
-        $user = [
-            'name' => 'abc',
-            'password' => 'a'
-        ];
-
         $response = $this->post($this->url, $user);
 
-        // $response->assertUnauthorized();
+        $response->assertUnauthorized();
     }
+
     /**
      * @return array 
-     * ['' => ['' => '']]
+     * ['name','password']
      */
-    public function invalidInput()
+    public static  function invalidInputProvider()
     {
         return [
-            'no name' => [
-                ['password' => '1234']
-            ],
-            'no pwd' => [
-                ['name' => 'abc']
+            'incorrect info' => [
+                [
+                    'name' => 'abc',
+                    'password' => 'a'
+                ],
             ]
         ];
     }
